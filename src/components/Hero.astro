@@ -1,0 +1,98 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { mainPhone, heroMakes, heroMakesMobile, heroCenter } from "../data/pickon";
+---
+<Section id="hero" class="hero" rec="R-UX-02" label="Автоскло під вашу марку">
+  <div class="hero__grid container">
+    <div class="hero__text">
+      <h1 class="hero__h1">
+        <span class="hero__line">Автоскло під </span>
+        <span class="hero__line">вашу марку — </span>
+        <span class="hero__line">від Acura до УАЗ</span>
+      </h1>
+      <p class="hero__sub lead">Лобове, заднє й бокове скло для легкових авто й мікроавтобусів. Відправляємо по всій Україні, оплата при отриманні.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg hero__cta" href={mainPhone.href} data-hero-cta data-rec="R-UX-02,R-SP-04,S-R011,M-R004">
+          <Icon name="phone" />Подзвонити {mainPhone.short}
+        </a>
+        <a class="link link--ink hero__pick" href="#pidbir">Обрати марку</a>
+      </div>
+      <p class="hero__trust small muted" data-rec="R-UX-06,S-R010">Сайт працює з 2013 року, у магазину 68 відгуків з оцінкою 5.0.</p>
+    </div>
+
+    <nav class="hero__index" aria-label="Марки авто, перейти до підбору">
+      <div class="hero__window">
+        <ul class="hero__roll">
+          {heroMakes.map((m) => (
+            <li>
+              <a href="#pidbir" data-pick-make={m} class:list={["hero__make", { "is-center": m === heroCenter }]}>{m}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    <ul class="hero__chips" aria-label="Марки авто, перейти до підбору">
+      {heroMakesMobile.map((m) => <li><a class="hero__chip" href="#pidbir" data-pick-make={m}>{m}</a></li>)}
+      <li><a class="hero__chip hero__chip--all" href="#pidbir">Усі 77 марок</a></li>
+    </ul>
+  </div>
+</Section>
+
+<style>
+  :global(.hero) { padding-block: var(--s-6) var(--s-8); }
+  .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+  .hero__cta { white-space: nowrap; }
+  .hero__h1 { font-size: var(--fs-display); font-weight: 800; line-height: var(--lh-display); letter-spacing: -.02em; max-width: 15ch; }
+  .hero__line { display: inline; }
+  .hero__sub { margin-top: var(--s-5); max-width: 34rem; }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-6); margin-top: var(--s-6); }
+  .hero__cta { width: 100%; }
+  .hero__trust { margin-top: var(--s-5); max-width: 34rem; }
+
+  .hero__index { display: none; }
+  .hero__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .hero__chip {
+    display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 var(--s-4);
+    border: var(--ring) solid var(--color-text); border-radius: var(--radius);
+    font-family: var(--font-display); font-weight: 700; font-size: var(--fs-body); text-decoration: none;
+    transition: transform var(--dur-press) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .hero__chip:hover { background: var(--color-text); color: var(--color-on-ink); }
+  .hero__chip:active { transform: scale(.98); }
+  .hero__chip--all { border-color: var(--color-accent); background: var(--color-accent); }
+
+  @media (min-width: 30rem) {
+    .hero__cta { width: auto; }
+  }
+  @media (min-width: 64rem) {
+    :global(.hero) { padding-block: var(--s-7); min-height: calc(100svh - var(--header-h)); display: flex; flex-direction: column; justify-content: center; }
+    .hero__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: center; }
+    .hero__text { grid-column: 1 / span 8; }
+    .hero__h1 { max-width: none; }
+    .hero__line { display: block; }
+    .hero__chips { display: none; }
+    .hero__index { display: block; grid-column: 9 / span 4; }
+    .hero__window { overflow: clip; padding-block: var(--s-2); }
+    .hero__roll { display: grid; gap: 0; }
+    .hero__make {
+      display: flex; align-items: center; padding: var(--s-3) var(--s-5); border-radius: var(--radius);
+      font-family: var(--font-display); font-weight: 700; font-size: var(--fs-index); line-height: var(--lh-tight);
+      color: var(--color-muted); text-decoration: none;
+      transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), transform var(--dur-press) var(--ease-out);
+    }
+    .hero__make:hover { color: var(--color-text); background: var(--color-surface); }
+    .hero__make:active { transform: scale(.98); }
+    .hero__make.is-center { background: var(--color-accent); color: var(--color-text); }
+    .hero__make.is-center:hover { background: var(--color-text); color: var(--color-accent); }
+  }
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    /* Motion 1: one roll of the index, settling on the visitor's make. Text and CTA are never delayed. */
+    .hero__roll { animation: hero-roll var(--dur-roll) var(--ease-out) 150ms both; }
+  }
+  @keyframes hero-roll {
+    from { transform: translateY(-40%); }
+    to { transform: translateY(0); }
+  }
+</style>

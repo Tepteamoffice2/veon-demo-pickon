@@ -1,0 +1,13 @@
+---
+// Pickon logo cut from the client's own site (audit/screens/home-desktop-fold.png). For FULL ask the client for the SVG.
+import logo from "../assets/pickon-logo.png";
+interface Props { class?: string; }
+const { class: cls } = Astro.props;
+---
+<a href="#top" class:list={["logo", cls]}>
+  <img src={logo.src} width="150" height={Math.round(150 * logo.height / logo.width)} alt="Pickon, на початок сторінки" decoding="async" />
+</a>
+<style>
+  .logo { display: inline-flex; align-items: center; min-height: var(--tap); border-radius: var(--radius); }
+  .logo img { width: clamp(118px, 9vw + 80px, 150px); height: auto; }
+</style>

@@ -1,0 +1,59 @@
+---
+import Logo from "./Logo.astro";
+import FutureLink from "./FutureLink.astro";
+import { futureNote } from "../data/pickon";
+
+const anchors = [
+  { href: "#pidbir", label: "Підбір скла" },
+  { href: "#dostavka", label: "Доставка й оплата" },
+  { href: "#katalog", label: "Каталог" },
+  { href: "#brendy", label: "Бренди" },
+  { href: "#dlia-sto", label: "Для СТО" },
+  { href: "#kontakty", label: "Контакти" },
+];
+const future = ["Автоскло", "Кузов і оптика", "Автохімія та інструменти", "Доставка й оплата", "Обмін і повернення", "Відгуки"];
+const legal = ["Політика конфіденційності", "Угода користувача"];
+---
+<footer class="ftr" data-rec="R-UX-08,R-UX-09">
+  <div class="ftr__grid container">
+    <div class="ftr__brand">
+      <Logo />
+      <p class="small muted">Інтернет-магазин автоскла, кузовних деталей, оптики й автохімії. Доставка по всій Україні.</p>
+    </div>
+    <nav class="ftr__col ftr__col--a" aria-label="Розділи сторінки, підвал">
+      <h2 class="ftr__title">На цій сторінці</h2>
+      <ul>{anchors.map((a) => <li><a class="ftr__link" href={a.href}>{a.label}</a></li>)}</ul>
+    </nav>
+    <div class="ftr__col ftr__col--b">
+      <h2 class="ftr__title">Розділи сайту</h2>
+      <ul>{future.map((f) => <li><FutureLink note={futureNote}>{f}</FutureLink></li>)}</ul>
+    </div>
+    <div class="ftr__col ftr__col--c">
+      <h2 class="ftr__title">Документи</h2>
+      <ul>{legal.map((f) => <li><FutureLink note={futureNote}>{f}</FutureLink></li>)}</ul>
+    </div>
+  </div>
+  <div class="container ftr__bottom">
+    <p class="small muted">© 2013–2026 Pickon</p>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--color-surface); padding-block: var(--s-8) var(--s-6); }
+  .ftr__grid { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); }
+  .ftr__brand { display: grid; gap: var(--s-3); max-width: 22rem; justify-items: start; }
+  .ftr__title { font-family: var(--font-body); font-size: var(--fs-small); font-weight: 600; color: var(--color-muted); margin-bottom: var(--s-2); }
+  .ftr__link { display: inline-flex; align-items: center; min-height: var(--tap); text-decoration: none; }
+  .ftr__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .ftr__bottom { margin-top: var(--s-7); padding-top: var(--s-4); border-top: 1px solid var(--color-border); }
+  @media (min-width: 48rem) {
+    .ftr__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .ftr__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .ftr__brand { grid-column: 1 / span 3; }
+    .ftr__col--a { grid-column: 4 / span 3; }
+    .ftr__col--b { grid-column: 7 / span 3; }
+    .ftr__col--c { grid-column: 10 / span 3; }
+  }
+</style>

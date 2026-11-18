@@ -1,0 +1,96 @@
+/* Hallmark · shape: index-first · genre: modern-minimal · theme: custom · job: buy · idea: "Главная Pickon — указатель автостекла: марка машины посетителя — самое крупное слово на странице, а всё остальное — короткий путь от этого слова к разговору с магазином." · vibe: "справочник марок, зелёное поле, прямой разговор"
+ * paper: #FFFFFF · surface: absolute · accent: #2FA52E · display: Geologica · body: IBM Plex Sans · hero: H1 с диапазоном марок слева, справа колонка реальных марок с выбранной на зелёной плашке, звонок первым действием · nav: sticky bar, logo, 6 anchors, phone as text, call button · footer: concrete band, logo, anchors, future pages, legal, copyright · imagery: none · signature: зелёное поле-указатель из 77 марок, где марка становится запросом в магазин
+ * axes: light/geometric-sans/chromatic-green · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, no client photos — type and the brand index carry the page instead of stock */
+/* Hallmark · waive 7b · tokens.css:--color-bg #FFFFFF · concept.md §5 Look fixes pure white as the catalogue page ("не бумага"); a tint would turn the index into a paper theme */
+/* Hallmark · waive 39b · .btn--lg 56px · concept.md §8 «Кнопки: primary 56/48 px»: the call is the page's one job and stands a step taller than the 48px controls */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md); waivers go right below it. */
+/* Pickon design tokens — only from design/concept.md (veon-concept). Breakpoints (media queries cannot read custom properties): 48rem (768), 64rem (1024), 80rem (1280). */
+
+@font-face { font-family: "Geologica"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../assets/fonts/geologica-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Geologica"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../assets/fonts/geologica-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-cyrillic-500-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("../assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+:root {
+  /* Palette (concept §8) */
+  --color-bg: #FFFFFF;
+  --color-surface: #ECEEE8;
+  --color-text: #131A14;
+  --color-muted: #4D574E;
+  --color-accent: #2FA52E;
+  --color-accent-ink: #131A14;
+  --color-accent-text: #1B6E1C;
+  --color-on-ink: #FFFFFF;
+  --color-on-ink-muted: #B9C2B8;
+  --color-border: #C9CEC5;
+  --color-focus: #131A14;
+  --color-focus-on-dark: #2FA52E;
+
+  /* Type */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --fs-display: clamp(2.5rem, 1.25rem + 5.2vw, 5.5rem);   /* 40 → 88 */
+  --fs-h2: clamp(2rem, 1.4rem + 2.5vw, 3.5rem);           /* 32 → 56 */
+  --fs-index: clamp(1.5rem, 1.1rem + 1.7vw, 2.5rem);      /* 24 → 40 */
+  --fs-h3: clamp(1.375rem, 1.2rem + .7vw, 1.75rem);       /* 22 → 28 */
+  --fs-body-l: clamp(1.125rem, 1.05rem + .3vw, 1.25rem);  /* 18 → 20 */
+  --fs-body: clamp(1rem, .97rem + .1vw, 1.0625rem);       /* 16 → 17 */
+  --fs-small: .875rem;                                    /* 14 */
+  --lh-display: .97;
+  --lh-tight: 1.05;
+  --lh-heading: 1.15;
+  --lh-body: 1.55;
+
+  /* Space: 4/8 step */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+  --space: clamp(20px, 1rem + 4vw, 80px);                 /* page gutter 20 → 80 */
+  --gap: clamp(16px, .8rem + .6vw, 24px);
+  --section-y: clamp(72px, 3rem + 5vw, 128px);
+  --section-y-short: clamp(56px, 2.5rem + 3vw, 96px);
+  --container: 1280px;
+  --header-h: 72px;
+  --header-h-mobile: 60px;
+  --bar-h: 64px;
+  --tap: 44px;
+  --btn-h: 56px;
+  --btn-h-sm: 48px;
+
+  /* Shape */
+  --radius: 6px;
+  --radius-panel: 12px;
+  --ring: 2px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-press: 120ms;
+  --dur-fast: 200ms;
+  --dur-panel: 240ms;
+  --dur-bars: 700ms;
+  --dur-roll: 900ms;
+}
+@media (max-width: 47.99rem) {
+  :root { --header-h: var(--header-h-mobile); --dur-bars: 500ms; --dur-panel: 180ms; }
+}

@@ -1,0 +1,58 @@
+---
+// Pickon homepage (design/concept.md, ux/demo-home.md). Facts: veon/client.json via src/data/pickon.ts.
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Pidbir from "../components/Pidbir.astro";
+import Dostavka from "../components/Dostavka.astro";
+import Katalog from "../components/Katalog.astro";
+import Brendy from "../components/Brendy.astro";
+import DliaSto from "../components/DliaSto.astro";
+import Kontakty from "../components/Kontakty.astro";
+import Footer from "../components/Footer.astro";
+import MobileBar from "../components/MobileBar.astro";
+import geologicaCyr from "../assets/fonts/geologica-cyrillic-wght-normal.woff2?url";
+import { phones, email } from "../data/pickon";
+import logo from "../assets/pickon-logo.png";
+
+const title = "Автоскло з доставкою по Україні — лобове, заднє | Pickon";
+const description =
+  "Лобове, заднє й бокове скло для легкових авто й мікроавтобусів. Підбір за маркою, оплата при отриманні, доставка по всій Україні.";
+
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "AutoPartsStore",
+  name: "Pickon",
+  telephone: phones.map((p) => p.display),
+  email,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Запоріжжя",
+    streetAddress: "вул. Шкільна, 56",
+    addressCountry: "UA",
+  },
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "08:30", closes: "16:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday"], opens: "09:00", closes: "14:00" },
+  ],
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="preload" href={geologicaCyr} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" href={logo.src} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </Fragment>
+  <Header slot="header" />
+  <Hero />
+  <Pidbir />
+  <Dostavka />
+  <Katalog />
+  <Brendy />
+  <DliaSto />
+  <Kontakty />
+  <Fragment slot="footer">
+    <Footer />
+    <MobileBar />
+  </Fragment>
+</Base>

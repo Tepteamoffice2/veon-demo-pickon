@@ -1,0 +1,37 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { mainPhone, mailto } from "../data/pickon";
+---
+<Section id="dlia-sto" class="sto on-dark">
+  <div class="sto__grid container">
+    <h2 class="h2 sto__title">Для СТО та юросіб</h2>
+    <div class="sto__body">
+      <ul class="sto__list">
+        <li>Безготівковий рахунок для юросіб, без ПДВ.</li>
+        <li>Інструменти для заміни скла.</li>
+        <li>Автохімія Teroson, Loctite, Henkel, SIKA та інструмент PMA-Tools.</li>
+      </ul>
+      <p class="sto__note">Обсяги та умови уточнюйте телефоном.</p>
+      <div class="sto__actions">
+        <a class="btn btn--primary btn--lg" href={mainPhone.href} data-rec="R-SP-04"><Icon name="phone" />Подзвонити {mainPhone.short}</a>
+        <a class="btn btn--outline-dark btn--lg" href={mailto("Запит від СТО")}><Icon name="mail" />Написати на пошту</a>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  :global(.sto) { background: var(--color-text); color: var(--color-on-ink); padding-block: var(--section-y-short); }
+  .sto__grid { display: grid; gap: var(--s-6); }
+  .sto__list { display: grid; gap: var(--s-3); font-size: var(--fs-body-l); }
+  .sto__list li { padding-left: var(--s-5); position: relative; }
+  .sto__list li::before { content: ""; position: absolute; left: 0; top: .75em; width: 12px; height: 2px; background: var(--color-accent); }
+  .sto__note { margin-top: var(--s-5); color: var(--color-on-ink-muted); }
+  .sto__actions { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  @media (min-width: 64rem) {
+    .sto__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: start; }
+    .sto__title { grid-column: 1 / span 5; }
+    .sto__body { grid-column: 7 / span 6; }
+  }
+</style>

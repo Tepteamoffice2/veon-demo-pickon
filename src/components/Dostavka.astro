@@ -1,0 +1,105 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, futureNote } from "../data/pickon";
+
+// C-007: approximate delivery cost by item size; bar length shows the size of the item, not the price.
+const tariffs = [
+  { item: "Ущільнювач або молдинг", price: "70–150 грн", size: 0.3 },
+  { item: "Бокове скло", price: "200–350 грн", size: 0.6 },
+  { item: "Лобове або заднє скло", price: "450–550 грн", size: 1 },
+];
+---
+<Section id="dostavka" class="section dostavka" rec="R-UX-06">
+  <div class="container">
+    <div class="dostavka__head">
+      <h2 class="h2">Доставка, оплата й повернення</h2>
+      <p class="lead dostavka__intro">Відправляємо у відділення служби доставки по всій Україні. Вартість залежить від розміру скла.</p>
+    </div>
+
+    <figure class="ruler">
+      <figcaption class="small muted">Орієнтовна вартість доставки</figcaption>
+      <ul class="ruler__list">
+        {tariffs.map((t, i) => (
+          <li class="ruler__row">
+            <span class="ruler__item">{t.item}</span>
+            <span class="ruler__track" aria-hidden="true">
+              <span class="ruler__bar" data-reveal style={`--size:${t.size}; --reveal-delay:${i * 80}ms`}></span>
+            </span>
+            <span class="ruler__price">{t.price}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="ruler__note small muted">Накладений платіж: плюс 2% і 20 грн. Замовлення формуємо 1–3 робочі дні, доставка триває 1–3 дні.</p>
+    </figure>
+
+    <p class="dostavka__check">Перевірте скло у відділенні при отриманні: якщо воно розбите чи з браком, складається акт.</p>
+
+    <div class="dostavka__cols">
+      <div>
+        <h3 class="h3">Оплата</h3>
+        <ul class="facts">
+          <li>Готівкою при отриманні або накладеним платежем Нова пошта.</li>
+          <li>Переказ на картку або рахунок.</li>
+          <li>Безготівковий рахунок для юросіб, без ПДВ.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="h3">Повернення</h3>
+        <ul class="facts">
+          <li>Обмін і повернення протягом 14 днів, товар без слідів використання, в упаковці.</li>
+          <li>Зворотну доставку оплачує покупець.</li>
+          <li>Гроші повертаємо до 3 робочих днів.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dostavka__actions">
+      <a class="btn btn--outline btn--lg" href={mainPhone.href} data-rec="R-SP-04"><Icon name="phone" />Запитати про доставку</a>
+      <FutureLink note={futureNote}>Докладніше про доставку</FutureLink>
+      <FutureLink note={futureNote}>Обмін і повернення</FutureLink>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .dostavka__head { display: grid; gap: var(--s-4); max-width: 52rem; }
+  .ruler { margin: var(--s-8) 0 0; display: grid; gap: var(--s-4); }
+  .ruler__list { display: grid; gap: var(--s-5); }
+  .ruler__row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "item price" "track track";
+    gap: var(--s-2) var(--s-4); align-items: baseline;
+  }
+  .ruler__item { grid-area: item; font-weight: 600; }
+  .ruler__price { grid-area: price; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); white-space: nowrap; }
+  .ruler__track { grid-area: track; display: block; height: 20px; border-bottom: 1px solid var(--color-border); }
+  .ruler__bar {
+    display: block; height: 100%; width: calc(var(--size) * 100%); background: var(--color-accent);
+    border-radius: 0 var(--radius) var(--radius) 0; transform-origin: left center;
+  }
+  /* Motion 3: bars grow to the item's size once in view; prices are always visible. */
+  :global(.js) .ruler__bar[data-reveal] { transition: transform var(--dur-bars) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+  :global(.js) .ruler__bar[data-reveal]:not(.is-visible) { opacity: 1; transform: scaleX(0); }
+  .ruler__note { max-width: 44rem; }
+
+  .dostavka__check {
+    margin-top: var(--s-8); max-width: 22ch; font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-h2); line-height: 1.05; letter-spacing: -.01em;
+  }
+  .dostavka__cols { margin-top: var(--s-8); display: grid; gap: var(--s-7); }
+  .facts { margin-top: var(--s-4); display: grid; gap: var(--s-3); }
+  .facts li { padding-left: var(--s-5); position: relative; max-width: 34rem; }
+  .facts li::before { content: ""; position: absolute; left: 0; top: .7em; width: 12px; height: 2px; background: var(--color-accent-text); }
+  .dostavka__actions { margin-top: var(--s-7); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-6); }
+
+  @media (min-width: 64rem) {
+    .ruler__row { grid-template-columns: 16rem minmax(0, 1fr) 10rem; grid-template-areas: "item track price"; align-items: center; gap: var(--s-6); }
+    .ruler__track { height: 28px; border-bottom: 0; }
+    .ruler__price { text-align: right; }
+    .dostavka__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .ruler__bar[data-reveal]:not(.is-visible) { transform: none; }
+  }
+</style>

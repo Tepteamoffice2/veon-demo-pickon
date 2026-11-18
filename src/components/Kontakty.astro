@@ -1,0 +1,66 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import { phones, email, viber, address, mapHref, hours, futureNote } from "../data/pickon";
+---
+<Section id="kontakty" class="section kontakty" rec="R-UX-05,R-UX-06,R-SP-04">
+  <div class="kontakty__grid container">
+    <div class="kontakty__main">
+      <h2 class="h2">Контакти</h2>
+      <p class="lead kontakty__intro">Назвіть марку, модель і рік: підкажемо, яке скло підходить, скільки коштує і коли відправимо.</p>
+      <ul class="phones">
+        {phones.map((p) => <li><a class="phone" href={p.href}>{p.display}</a></li>)}
+      </ul>
+      <div class="kontakty__channels">
+        <a class="btn btn--primary btn--lg" href={viber}><Icon name="chat" />Написати у Viber</a>
+        <a class="btn btn--outline btn--lg" href={`mailto:${email}`}><Icon name="mail" />{email}</a>
+      </div>
+    </div>
+
+    <div class="kontakty__side">
+      <div class="block">
+        <h3 class="block__title">Графік роботи</h3>
+        <dl class="hours">
+          {hours.map((h) => <div><dt>{h.days}</dt><dd>{h.time}</dd></div>)}
+        </dl>
+      </div>
+      <div class="block">
+        <h3 class="block__title">Офіс</h3>
+        <p>{address.city}, {address.street}</p>
+        <a class="link" href={mapHref} target="_blank" rel="noopener">Відкрити на карті<span class="visually-hidden"> (нова вкладка)</span></a>
+      </div>
+      <div class="block" data-rec="R-UX-06">
+        <h3 class="block__title">Про магазин</h3>
+        <p>Сайт працює з 2013 року. У магазину 68 відгуків з оцінкою 5.0.</p>
+        <FutureLink note={futureNote}>Усі відгуки</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .kontakty__grid { display: grid; gap: var(--s-8); }
+  .kontakty__intro { margin-top: var(--s-4); max-width: 36rem; }
+  .phones { margin-top: var(--s-6); display: grid; gap: var(--s-1); }
+  .phone {
+    display: inline-flex; align-items: center; min-height: 52px; font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-index); line-height: var(--lh-tight); text-decoration: none; white-space: nowrap;
+    text-decoration-line: underline; text-decoration-color: transparent; text-decoration-thickness: 3px; text-underline-offset: 6px;
+    transition: text-decoration-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .phone:hover, .phone:focus-visible { text-decoration-color: var(--color-accent); color: var(--color-accent-text); }
+  .kontakty__channels { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  .kontakty__side { display: grid; gap: var(--s-6); align-content: start; }
+  .block { display: grid; gap: var(--s-2); justify-items: start; border-top: 1px solid var(--color-border); padding-top: var(--s-4); }
+  .block__title { font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600; color: var(--color-muted); }
+  .hours { margin: 0; display: grid; gap: var(--s-1); }
+  .hours div { display: flex; gap: var(--s-4); }
+  .hours dt { min-width: 4.5rem; font-weight: 600; }
+  .hours dd { margin: 0; }
+  @media (min-width: 64rem) {
+    .kontakty__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .kontakty__main { grid-column: 1 / span 7; }
+    .kontakty__side { grid-column: 9 / span 4; padding-top: var(--s-3); }
+  }
+</style>

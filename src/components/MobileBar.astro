@@ -1,0 +1,51 @@
+---
+// One bottom bar on phones instead of two floating widgets (R-UX-04). Space is reserved under it.
+import Icon from "./Icon.astro";
+import { mainPhone, viber } from "../data/pickon";
+---
+<div class="bar" data-bar data-rec="R-UX-04,R-UX-05">
+  <a class="bar__btn bar__btn--call" href={mainPhone.href} data-rec="R-SP-04"><Icon name="phone" />Подзвонити</a>
+  <a class="bar__btn" href={viber}><Icon name="chat" />Viber</a>
+</div>
+
+<style>
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s-2); padding: var(--s-2) var(--s-3) calc(var(--s-2) + env(safe-area-inset-bottom));
+    background: var(--color-bg); border-top: 1px solid var(--color-border);
+    transition: transform var(--dur-panel) var(--ease-out);
+  }
+  .bar__btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); min-height: var(--btn-h-sm);
+    border-radius: var(--radius); border: var(--ring) solid var(--color-text); font-weight: 600; text-decoration: none;
+    transition: transform var(--dur-press) var(--ease-out);
+  }
+  .bar__btn:active { transform: scale(.98); }
+  .bar__btn--call { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
+  /* Motion 5: the bar slides in once the hero call button has left the screen; hidden while the request panel is on screen. */
+  :global(.js) .bar:not(.bar-on) { transform: translateY(110%); }
+  @media (min-width: 64rem) { .bar { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .bar { transition: none; } }
+  :global(body) { padding-bottom: calc(var(--btn-h-sm) + var(--s-4) + env(safe-area-inset-bottom)); }
+  @media (min-width: 64rem) { :global(body) { padding-bottom: 0; } }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>("[data-bar]");
+  const cta = document.querySelector("[data-hero-cta]");
+  const pidbir = document.getElementById("pidbir");
+  if (bar && "IntersectionObserver" in window) {
+    let ctaVisible = true;
+    let pidbirVisible = false;
+    const update = () => {
+      const on = !ctaVisible && !pidbirVisible;
+      bar.classList.toggle("bar-on", on);
+      bar.inert = !on;
+    };
+    if (cta) new IntersectionObserver(([e]) => { ctaVisible = e.isIntersecting; update(); }).observe(cta);
+    if (pidbir) new IntersectionObserver(([e]) => { pidbirVisible = e.isIntersecting; update(); }, { rootMargin: "-20% 0px -20% 0px" }).observe(pidbir);
+    update();
+  } else if (bar) {
+    bar.classList.add("bar-on");
+  }
+</script>

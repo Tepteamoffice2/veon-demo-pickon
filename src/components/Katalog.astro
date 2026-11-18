@@ -1,0 +1,67 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, futureNote, makes } from "../data/pickon";
+
+// C-003, business_lines: three catalogue sections. Makes of «Кузов і оптика» — as on the client's homepage (home-desktop-s03.png).
+const rows = [
+  {
+    title: "Автоскло",
+    text: "Лобове, заднє й бокове скло дверей і кузова для легкових авто та мікроавтобусів.",
+    items: [`${makes.length} марок від Acura до УАЗ`],
+    pick: true,
+  },
+  {
+    title: "Кузов і оптика",
+    text: "Деталі кузова, фари й ліхтарі за марками авто.",
+    items: ["Acura", "Audi", "BMW", "Buick", "BYD", "Chery", "Chevrolet", "та інші марки"],
+    pick: false,
+  },
+  {
+    title: "Автохімія та інструменти",
+    text: "Усе для заміни скла: інструмент і автохімія.",
+    items: ["Інструменти для заміни скла", "Автохімія"],
+    pick: false,
+  },
+];
+---
+<Section id="katalog" class="katalog">
+  <div class="container">
+    <h2 class="h2">Каталог</h2>
+    <ol class="rows">
+      {rows.map((r, i) => (
+        <li class:list={["row", `row--${i + 1}`]}>
+          <h3 class="row__title">{r.title}</h3>
+          <div class="row__body">
+            <p>{r.text}</p>
+            <ul class="row__items">{r.items.map((it) => <li>{it}</li>)}</ul>
+            <div class="row__actions">
+              {r.pick
+                ? <a class="link" href="#pidbir">Обрати марку</a>
+                : <a class="link" href={mainPhone.href} data-rec="R-SP-04">Запитати телефоном</a>}
+              <FutureLink note={futureNote}>Відкрити розділ</FutureLink>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Section>
+
+<style>
+  :global(.katalog) { background: var(--color-surface); padding-block: var(--section-y); }
+  .rows { margin-top: var(--s-7); border-top: var(--ring) solid var(--color-text); }
+  .row { display: grid; gap: var(--s-4); padding-block: var(--s-6); border-bottom: 1px solid var(--color-border); }
+  .row__title { font-size: var(--fs-index); font-weight: 700; line-height: var(--lh-tight); letter-spacing: -.01em; }
+  .row--1 .row__title { font-size: var(--fs-h2); }
+  .row__body { display: grid; gap: var(--s-3); max-width: 40rem; }
+  .row__items { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); color: var(--color-muted); font-weight: 500; }
+  .row__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-6); }
+
+  @media (min-width: 64rem) {
+    .row { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: start; }
+    .row__title { grid-column: 1 / span 6; }
+    .row__body { grid-column: 7 / span 6; padding-top: var(--s-2); }
+    .row--1 { padding-block: var(--s-8); }
+  }
+</style>

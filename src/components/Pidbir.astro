@@ -1,0 +1,201 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import { makeGroups, makes, glassTypes, mainPhone, viber, email, requestMailto, futureNote } from "../data/pickon";
+
+const first = glassTypes[0];
+---
+<Section id="pidbir" class="pidbir" rec="R-UX-01">
+  <div class="pidbir__grid container">
+    <div class="pidbir__main">
+      <h2 class="h2">Підбір скла за маркою</h2>
+      <p class="pidbir__intro lead">Оберіть, яке скло потрібне, і свою марку. Модель і рік назвете в розмові, ми підберемо скло під вашу комплектацію.</p>
+
+      <fieldset class="types">
+        <legend class="types__legend">Яке скло потрібне</legend>
+        <div class="types__row">
+          {glassTypes.map((t, i) => (
+            <label class="types__opt">
+              <input type="radio" name="glass" value={t.id} checked={i === 0} data-subject={t.subject} data-phrase={t.phrase} />
+              <span>{t.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <h3 class="visually-hidden">Марки авто від A до Я, {makes.length} марок</h3>
+      <ul class="index" aria-label={`Марки авто, ${makes.length}`}>
+        {makeGroups.map((g) => g.makes.map((m, i) => (
+          <li class:list={["index__item", { "index__item--first": i === 0 }]}>
+            {i === 0 && <span class="index__letter" aria-hidden="true">{g.letter}</span>}
+            <button class="make" type="button" aria-pressed="false" data-make={m}><span>{m}</span></button>
+          </li>
+        )))}
+      </ul>
+      <p class="pidbir__none">Немає вашої марки в списку? <a class="pidbir__none-link" href={mainPhone.href} data-rec="R-SP-04">Подзвоніть, підберемо</a></p>
+    </div>
+
+    <aside class="panel on-dark" aria-labelledby="panel-title" data-rec="R-UX-01,R-UX-05">
+      <h3 class="panel__title" id="panel-title">Ваш запит</h3>
+      <p class="panel__text" aria-live="polite" data-panel-text>
+        <span data-panel-type>Лобове скло</span><span data-panel-make>. Оберіть марку в списку або просто подзвоніть.</span>
+      </p>
+      <div class="panel__actions">
+        <a class="btn btn--primary btn--lg panel__call" href={mainPhone.href} data-rec="R-SP-04"><Icon name="phone" />Подзвонити<span class="panel__long"> {mainPhone.short}</span></a>
+        <a class="btn btn--outline-dark" href={viber}><Icon name="chat" />Viber</a>
+        <a class="btn btn--outline-dark" href={requestMailto(first.subject)} data-mailto><Icon name="mail" />Лист<span class="panel__long"> із запитом</span></a>
+      </div>
+      <p class="panel__mail small">Пошта: <span class="panel__mail-addr">{email}</span>. Лист відкриється у вашій пошті з готовим шаблоном.</p>
+      <p class="panel__future small"><FutureLink note={futureNote}><span data-panel-catalog>Каталог марки</span></FutureLink></p>
+    </aside>
+  </div>
+</Section>
+
+<style>
+  :global(.pidbir) { background: var(--color-accent); color: var(--color-accent-ink); padding-block: var(--section-y); }
+  .pidbir__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
+  .pidbir__intro { margin-top: var(--s-4); max-width: 40rem; }
+
+  .types { border: 0; margin: var(--s-6) 0 0; padding: 0; min-width: 0; }
+  .types__legend { padding: 0; font-weight: 600; margin-bottom: var(--s-3); }
+  .types__row { display: inline-grid; grid-template-columns: repeat(3, auto); gap: var(--s-1); padding: var(--s-1); border: var(--ring) solid var(--color-accent-ink); border-radius: var(--radius); }
+  .types__opt { position: relative; display: inline-flex; }
+  .types__opt input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .types__opt span {
+    display: flex; align-items: center; justify-content: center; min-height: var(--tap); padding: 0 clamp(12px, 3vw, 24px); border-radius: calc(var(--radius) - 2px);
+    font-weight: 600; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .types__opt input:hover + span { text-decoration: underline; text-underline-offset: 4px; }
+  .types__opt input:checked + span { background: var(--color-accent-ink); color: var(--color-accent); }
+  .types__opt input:focus-visible + span { outline: var(--ring) solid var(--color-accent-ink); outline-offset: 3px; }
+
+  .index { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-1); margin-top: var(--s-6); }
+  .index { align-items: center; }
+  .index__item { position: relative; display: inline-flex; }
+  .index__item--first { padding-inline-start: var(--s-4); margin-inline-start: var(--s-2); }
+  .index__item--first:first-child { margin-inline-start: 0; }
+  .index__letter { position: absolute; left: 0; top: var(--s-1); font-size: var(--fs-small); font-weight: 600; line-height: 1; }
+  .make {
+    position: relative; display: inline-flex; align-items: center; min-height: var(--tap); padding: var(--s-1) var(--s-2);
+    border: 0; border-radius: var(--radius); background: transparent; cursor: pointer;
+    font-family: var(--font-display); font-weight: 700; font-size: var(--fs-index); line-height: var(--lh-tight); letter-spacing: -.01em;
+    color: var(--color-accent-ink); isolation: isolate;
+    transition: transform var(--dur-press) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .make::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--color-accent-ink);
+    clip-path: inset(0 100% 0 0); transition: clip-path var(--dur-fast) var(--ease-out);
+  }
+  .make span { white-space: nowrap; }
+  .make:hover span { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .make:active { transform: scale(.98); }
+  .make:focus-visible { outline: var(--ring) solid var(--color-accent-ink); outline-offset: 2px; }
+  /* Motion 2: the chosen make fills from the left (clip-path), then reads green on ink. */
+  .make[aria-pressed="true"] { color: var(--color-accent); }
+  .make[aria-pressed="true"]::before { clip-path: inset(0 0 0 0); }
+  .make[aria-pressed="true"]:hover span { text-decoration: none; }
+
+  .pidbir__none { margin-top: var(--s-6); font-size: var(--fs-body-l); }
+  .pidbir__none-link { font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 4px; display: inline-flex; align-items: center; min-height: var(--tap); }
+  .pidbir__none-link:hover { text-decoration-thickness: 3px; }
+
+  .panel {
+    position: sticky; bottom: var(--s-3); z-index: 5; align-self: end;
+    background: var(--color-text); color: var(--color-on-ink); border-radius: var(--radius-panel);
+    padding: var(--s-4); display: grid; gap: var(--s-3);
+  }
+  .panel__title { font-size: var(--fs-body); font-weight: 600; font-family: var(--font-body); color: var(--color-on-ink-muted); }
+  .panel__text { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-body-l); line-height: var(--lh-heading); }
+  .panel__text.is-changing { opacity: 0; transform: translateY(4px); }
+  .panel__text { transition: opacity var(--dur-panel) var(--ease-out), transform var(--dur-panel) var(--ease-out); }
+  .panel__actions { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .panel__actions .btn { min-height: var(--tap); padding: 0 var(--s-3); }
+  .panel__call { flex: 1 1 auto; }
+  .panel__actions .btn { white-space: normal; }
+  .panel__long, .panel__mail, .panel__future { display: none; }
+  .panel__mail { color: var(--color-on-ink-muted); }
+  .panel__mail-addr { color: var(--color-on-ink); font-weight: 600; user-select: all; }
+
+  @media (min-width: 48rem) {
+    .panel { padding: var(--s-6); gap: var(--s-4); }
+    .panel__long, .panel__mail, .panel__future { display: inline; }
+    .panel__mail, .panel__future { display: block; }
+    .panel__actions .btn { min-height: var(--btn-h-sm); padding: 0 var(--s-5); }
+    .panel__call { flex: 1 1 100%; }
+    .panel__call.btn--lg { min-height: var(--btn-h); }
+  }
+  @media (min-width: 64rem) {
+    .pidbir__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: start; }
+    .pidbir__main { grid-column: 1 / span 7; }
+    .panel {
+      grid-column: 8 / span 5; position: sticky; top: calc(var(--header-h) + var(--s-6)); bottom: auto; align-self: start;
+      margin-top: var(--s-10);
+    }
+    .panel__text { font-size: var(--fs-h3); }
+    /* the speech-bubble tail of the logo, once: the request is the visitor's line in a talk with the shop */
+    .panel::after {
+      content: ""; position: absolute; left: var(--s-6); bottom: -14px; width: 28px; height: 16px;
+      background: var(--color-text); clip-path: polygon(0 0, 100% 0, 0 100%);
+    }
+  }
+  @media (min-width: 80rem) {
+    .pidbir__main { grid-column: 1 / span 8; }
+    .panel { grid-column: 9 / span 4; }
+  }
+</style>
+
+<script>
+  import { requestMailto } from "../data/pickon";
+
+  const section = document.getElementById("pidbir");
+  if (section) {
+    const radios = [...section.querySelectorAll<HTMLInputElement>('input[name="glass"]')];
+    const buttons = [...section.querySelectorAll<HTMLButtonElement>("button[data-make]")];
+    const text = section.querySelector<HTMLElement>("[data-panel-text]");
+    const typeEl = section.querySelector<HTMLElement>("[data-panel-type]");
+    const makeEl = section.querySelector<HTMLElement>("[data-panel-make]");
+    const mail = section.querySelector<HTMLAnchorElement>("[data-mailto]");
+    const catalog = section.querySelector<HTMLElement>("[data-panel-catalog]");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let make: string | undefined;
+
+    const current = () => radios.find((r) => r.checked) ?? radios[0];
+    const cap = (s: string) => s.charAt(0).toLocaleUpperCase("uk") + s.slice(1);
+
+    const render = () => {
+      const r = current();
+      const apply = () => {
+        if (typeEl) typeEl.textContent = cap(r.dataset.phrase ?? "лобове скло");
+        if (makeEl) makeEl.textContent = make
+          ? ` для ${make}. Назвіть модель і рік, ми підберемо.`
+          : ". Оберіть марку в списку або просто подзвоніть.";
+        if (mail) mail.href = requestMailto(r.dataset.subject ?? "лобове", make);
+        if (catalog) catalog.textContent = make ? `Каталог ${make}` : "Каталог марки";
+      };
+      if (!text || reduce.matches) { apply(); return; }
+      // Motion 2b: the request line fades and settles (opacity + 4px), 240 ms.
+      text.classList.add("is-changing");
+      window.setTimeout(() => { apply(); text.classList.remove("is-changing"); }, 120);
+    };
+
+    const select = (name: string) => {
+      make = name;
+      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.make === name)));
+      render();
+    };
+
+    buttons.forEach((b) => b.addEventListener("click", () => {
+      if (b.getAttribute("aria-pressed") === "true") {
+        make = undefined;
+        b.setAttribute("aria-pressed", "false");
+        render();
+      } else select(b.dataset.make ?? "");
+    }));
+    radios.forEach((r) => r.addEventListener("change", render));
+
+    // Makes in the hero lead here with the make already chosen.
+    document.querySelectorAll<HTMLAnchorElement>("a[data-pick-make]").forEach((a) =>
+      a.addEventListener("click", () => select(a.dataset.pickMake ?? "")));
+  }
+</script>
